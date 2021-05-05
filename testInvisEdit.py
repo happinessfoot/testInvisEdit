@@ -91,7 +91,7 @@ class testInvisEditPlugin(object):
         layerList = QgsProject.instance().mapLayers().values()
         layerQuart = None
         for layer in layerList:
-            if(dbName in layer.source() and dbHost in layer.source() and dbPort in layer.source() and 'table="public"."t_forestquarter"' in layer.source() and 'type=MultiPolygon' in layer.source()):
+            if(dbName in layer.source() and dbHost in layer.source() and dbPort in layer.source() and 'table="public"."t_forestquarter"' in layer.source() and ('type=MultiPolygon' in layer.source() or 'type=MultiSurface' in layer.source())):
                 layerQuart = layer
                 break
         return layerQuart
@@ -230,7 +230,7 @@ class testInvisEditPlugin(object):
         while(query.next()):
             print(str(query.value('name')))
             mapConfig.append({str(query.value('name')):str(query.value('primarykey'))})
-            query.next()
+            #query.next()
         print(mapConfig)
         db.close()
         config = {'map': mapConfig}
